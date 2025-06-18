@@ -1,0 +1,48 @@
+Bias - The inability of a machine learning model to capture the underlying patterns and 
+       relationships in the training data, leading to biased predictions or decisions.   
+       Usally Linear regression has high bias and polynomial regression has low bias.    
+
+Variance - The difference between the errors in training data and testing data.
+
+Overfitting - The model is perfect for the training data, but it does not generalize well to the testing data.
+(Low bias, High variance)
+
+Underfitting - When the model does not capture the underlying patterns in the training data itself then it is 
+(High bias, Low variance) said to be underfitting.
+
+`Long Story Short, we have to go for a model that has low bias and low variance.`
+
+
+In Ridge regression (L2 regularization), we add lambda * m^2 term to the loss function.
+
+| Term              | Acts On              | Purpose                   |
+| ----------------- | -------------------- | ------------------------- |
+| **Loss Function** | Single example       | Measures individual error |
+| **Cost Function** | All training samples | Objective to minimize     |
+
+| Lambda (α) Value | Effect on Coefficients                              | Model Behavior                                            |
+| ---------------- | --------------------------------------------------- | --------------------------------------------------------- |
+| **α = 0**        | No penalty → like Linear Regression                 | Coefficients can be large                                 |
+| **Small α**      | Slight shrinkage                                    | Keeps model flexible                                      |
+| **Large α**      | Strong shrinkage                                    | Coefficients pushed toward zero, but **not exactly zero** |
+| **Too large α**  | May shrink coefficients too much → **underfitting** |                                                           |
+
+- In ridge regression, we restrict the solution to lie inside a hypersphere of radius depending on λ
+
+- When you graph this constrained region in 2D or 3D, the contours of equal penalty (i.e., 
+  form circular ridges or ellipsoids.)
+   
+   That "ridge-like" shape in coefficient space gave the method its name.
+
+   | Term               | Meaning                                                                                                                         |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| **"Ridge"**        | Refers to the **ridge-shaped constraint region** (L2 ball) that shrinks coefficients                                            |
+| **Regularization** | Encourages smaller weights, avoiding overfitting                                                                                |
+
+
+### We use cross-validation score to find the best value of lambda.
+
+
+
+
+

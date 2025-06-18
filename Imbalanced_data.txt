@@ -1,0 +1,33 @@
+Under Sampling
+
+Advantages:
+- Reduction in bias
+- Faster in training
+
+Disadvantages:
+- Information loss leading to underfitting
+- Sampling bias
+
+Over Sampling
+
+Advantages:
+- Reduction in bias
+
+Disadvantages:
+- Increases size
+- Duplication of data may cause overfitting
+
+SMOTE (Synthetic Minority Over-Sampling Technique)
+
+Advantages:
+- Can be used in reducing bias
+
+It has a lot more disadvanatges:
+- Does not handle caegorical data well
+- Computational complexity
+- Dependency on the choice of neighbours
+- Sensitive to outliers
+
+
+
+

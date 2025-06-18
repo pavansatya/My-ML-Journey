@@ -1,0 +1,26 @@
+| Aspect                | Standard Decision Tree      | XGBoost Split Criteria               |
+| --------------------- | --------------------------- | ------------------------------------ |
+| Classification Splits | Gini Impurity or Entropy    | ❌ Not used                           |
+| Regression Splits     | Variance Reduction / MSE    | ❌ Not used directly                  |
+| XGBoost Splits        | ❌ Gini/Entropy/MSE not used | ✅ Gain based on gradients & hessians |
+
+| Task Type             | Default Prediction Value                   |
+| --------------------- | ------------------------------------------ |
+| Regression            | Mean of targets $\bar{y}$                  |
+| Binary Classification | Log-odds of positive class $\log(p / 1-p)$ |
+| Multiclass            | Log-probabilities for each class           |
+
+
+Gradient - First derivative
+
+Hessian - Second derivative 
+
+
+Instead of checking:
+
+“Which split gives me lowest Gini impurity?” (like in classification trees)
+
+XGBoost asks:
+
+“Which split gives me maximum improvement in loss reduction, measured using gradients and hessians?”
+ 

@@ -1,0 +1,121 @@
+- Splitting should be done first, then only we go to the scaling step so that we can get the best possible scaling factor.
+
+| Dataset                  | What to use        |
+| ------------------------ | ------------------ |
+| **Training**             | `fit_transform()`  |
+| **Testing / Validation** | `transform()` only |
+
+
+| Scenario                                  | Should You Scale? |
+| ----------------------------------------- | ----------------- |
+| Values range from 10,000 to 50,000        | ✔️ Yes, scale     |
+| Values range from 1.2 to 3.6              | ❌ Not necessary   |
+| You’re using regularization (Ridge/Lasso) | ✔️ Recommended    |
+| Tree-based models                         | ❌ Not needed      |
+| Using gradient descent with large values  | ✔️ Yes            |
+
+
+Core difference between Feature extraction and Fetaure construction:
+
+| Concept                  | Definition                                                                                                      |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------- |
+| `Feature Extraction`   | `Transforms` high-dimensional data into a `lower-dimensional` space, usually using mathematical techniques  |
+| `Feature Construction` | `Creates new features` by `combining or modifying` existing ones based on domain knowledge or data patterns |
+
+Standardization and Normalization:
+
+| Scaler          | Formula                                      | Output Range              | Sensitive to Outliers?               |
+| --------------- | -------------------------------------------- | --------------------------| -------------------------------------|
+| Min-Max Scaler  | $X' = \frac{X - X_{min}}{X_{max} - X_{min}}$ | \[0, 1] (or custom range) | ✅ Yes                                |
+| Standard Scaler | $X' = \frac{X - \mu}{\sigma}$                | Mean = 0, Std = 1         | ⚠️ Less sensitive, but still affected |
+
+| Situation                      | Avoid                                                           |
+| ------------------------------ | --------------------------------------------------------------- |
+| Data has extreme outliers      | Min-Max Scaler ❌                                                |
+| Data has a skewed distribution | Standard Scaler might not help much – consider **RobustScaler** |
+
+
+✅ Use Min-Max Scaler when:
+
+📊 Data is bounded and not Gaussian
+E.g., pixel values (0–255), percentages, scores
+It compresses everything to the same range
+🤖 You’re using models that assume normalized data:
+KNN, K-Means, Neural Networks (especially activation functions like sigmoid, tanh)
+These are distance-sensitive or gradient-sensitive
+📈 You want bounded outputs (e.g., feeding into sigmoid activation)
+
+✅ Use Standard Scaler when:
+
+📉 Data is approximately normally distributed
+Especially for continuous numeric features
+🧠 You're using models that assume zero-centered data:
+Linear Regression
+Logistic Regression
+SVM
+PCA (since it relies on variance)
+⚖️ You have features with different units/scales, and you want to preserve relative relationships
+
+
+| Situation                  | Recommended Scaler        |
+| -------------------------- | ------------------------- |
+| Bounded data (0–1, 0–255)  | **MinMaxScaler**          |
+| Gaussian-like data         | **StandardScaler**        |
+| Feeding into neural nets   | **MinMaxScaler**          |
+| Using linear models or SVM | **StandardScaler**        |
+| Outliers present           | **RobustScaler** (bonus!) |
+
+
+* We can use Column Transformer to apply different scalers to different columns.
+
+```python
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from sklearn.compose import ColumnTransformer
+
+transformer = ColumnTransformer([
+    ("minmax_features", MinMaxScaler(), ['pixel_intensity', 'probability']),
+    ("standard_features", StandardScaler(), ['age', 'income']),
+])
+X_scaled = transformer.fit_transform(X)
+```
+
+
+## Encoding
+
+- When choosing which encoding to use on categorical features, follow these steps:
+
+| Encoding           | Use for Features                | Use for Target                 |
+| ------------------ | ------------------------------- | ------------------------------ |
+| **OrdinalEncoder** | ✅ Only if order matters         | ❌ No                           |
+| **LabelEncoder**   | ⚠️ Not recommended for features | ✅ OK for classification target |
+| **OneHotEncoder**  | ✅ For unordered categories      | ❌ Not used for target          |
+
+| Encoder            | Used On                      | Model Interpretation                               | Purpose                |
+| ------------------ | ---------------------------- | -------------------------------------------------- | ---------------------- |
+| **LabelEncoder**   | ✅ **Target variable only**   | Class **labels only** – no math done on values     | Classification         |
+| **OrdinalEncoder** | ✅ **Feature variables only** | Values are **used numerically** – order is assumed | Feature transformation |
+
+| Use Case                              | Safe Encoder                        |
+| ------------------------------------- | ----------------------------------- |
+| **Target (classification)**           | ✅ `LabelEncoder` (no implied order) |
+| **Categorical Feature with order**    | ✅ `OrdinalEncoder`                  |
+| **Categorical Feature without order** | ✅ `OneHotEncoder`                   |
+
+
+Used for target labels
+- Classification models (e.g., Logistic Regression, Decision Trees, SVM) treat these as class IDs, not math values
+- So: No assumption that Cherry > Banana > Apple
+➡️ It’s just a way to assign integer IDs to string class labels.
+
+
+
+
+
+Sample syntax of how to write for a column transformer:
+
+transformer = ColumnTransformer(transformers=[
+    ('tnf1',SimpleImputer(),['fever']),
+    ('tnf2',OrdinalEncoder(categories=[['Mild','Strong']]),['cough']),
+    ('tnf3',OneHotEncoder(sparse=False,drop='first'),['gender','city'])
+],remainder='passthrough')
+

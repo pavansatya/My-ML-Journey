@@ -1,0 +1,85 @@
+| Method           | Strategy                                                     | Problem                                                     |
+| ---------------- | ------------------------------------------------------------ | ----------------------------------------------------------- |
+| Grid Search      | Tries all combinations (brute force)                         | Very slow if you have many parameters — exponential growth! |
+| Random Search    | Randomly tries combinations                                  | Better than grid, but still blind to past results           |
+| **Optuna (TPE)** | Uses previous trial results to guess better values next time | Much more **sample-efficient** — learns as it searches      |
+
+
+Optuna can monitor performance during training (like early stopping) and terminate bad trials midway. Neither Grid Search nor Random Search can do that.
+
+This saves:
+
+Time ⏱️
+Compute 🔋
+Money 💰 (especially in cloud-based training)
+
+Grid Search requires you to discretize parameters ([0.01, 0.1, 1]), but what if the best value is 0.07?
+
+Optuna can:
+
+Search real numbers in a range (suggest_float("lr", 0.001, 1.0, log=True))
+Find optimal categorical, integer, or float values easily
+
+Optuna has built-in tools to:
+
+Plot optimization history
+Show hyperparameter importance
+Track and reload past studies (with a database or dashboard)
+
+You’re not restricted to scikit-learn models. You can use Optuna with:
+
+XGBoost
+LightGBM (has native Optuna support)
+PyTorch/TensorFlow (for deep learning tuning)
+Even custom pipelines or non-ML models
+
+| Feature                  | Grid Search | Random Search | **Optuna**  |
+| ------------------------ | ----------- | ------------- | ----------- |
+| Efficiency               | ❌ Slow      | ⚠️ Decent     | ✅ Excellent |
+| Pruning (early stopping) | ❌           | ❌             | ✅ Yes       |
+| Smart/Adaptive search    | ❌           | ❌             | ✅ Yes       |
+| Continuous space         | ❌ No        | ⚠️ Limited    | ✅ Yes       |
+| Visualizations           | ❌ None      | ❌ None        | ✅ Yes       |
+
+| Trait                    | RandomizedSearchCV    | Optuna             |
+| ------------------------ | --------------------- | ------------------ |
+| Learning from history    | ❌ Nope                | ✅ Yes              |
+| Explores smarter         | ❌ Totally random      | ✅ Guided search    |
+| Finds best value quickly | ⚠️ Maybe (luck-based) | ✅ Much more likely |
+| Prunes bad trials        | ❌ Can't               | ✅ Saves time       |
+
+KEY INSIGHT: Random search can find the best value, but it has no memory or direction. Optuna learns and 
+adapts, which is why it's more likely to find the best values within the same number of iterations.
+
+
+What is study?
+
+A study in optuna is a optimization session that encompasses multiple trials. It's essentially a collection of
+trails aimed at optimizing the objective function. You can think of a study as the overall experiment or search process.
+
+What is trial?
+
+A trial is a single iteration of the optimization process where a specific set of hyperparameters is evaluated. 
+Each trial runs the objective function once with distinct set of parameters.
+
+What are trial parameters?
+
+These are the specific parameters chosen during a trial. Each trial will have a unique combo of parameters.
+
+What is objective function?
+
+The objective function is the function that needs to be optimized during hyper-parameter search. 
+
+Ex: In a regression task, a combo of MSE and optimizing our model parameters to reduce this is the objective function.
+
+
+Last and most important, what is a Sampler?
+
+A sampler is a algorithm that suggests which hyper-parameter should be evaluated next. Optuna uses the Tree-Structured Parzen Estimator (TPE).
+It uses random sampling for first n-trails to look out for the promising regions.
+
+| Parameter                         | Description                                                                        |
+| --------------------------------- | ---------------------------------------------------------------------------------- |
+| `n_startup_trials=10` *(default)* | TPE performs **random sampling** for the first 10 trials (or however many you set) |
+| After that                        | It uses past results to build probability models and **search more intelligently** |
+

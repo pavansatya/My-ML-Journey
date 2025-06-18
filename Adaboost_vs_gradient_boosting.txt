@@ -1,0 +1,7 @@
+The main difference between Adaboost and Gradient boosting is, In Adaboost we use decision trees with
+max_depth=1 i.e. decision stumps and we change the weights gradually for better accuracy. While, 
+in Gradient boosting we use three models first one is the mean value (in case of regression), next one 
+being a decision tree with max_depth going upto 8 to 32 leaf nodes and also we have a parameter
+learning rate which gets updates based on the residual of actual and predicted value (difference 
+between mean and actual value).
+

@@ -1,0 +1,103 @@
+There are ensembling techniques like Voting, Bagging, boosting and stacking. Where we combine 
+multiple ML models to obtain better accuracy or robustness depending on the type of data.
+
+Bagging and Boosting are used to improve the accuracy of a model by reducing overfitting.
+# Bagging helps reduce variance, while Boosting helps reduce bias.
+
+Here, there are multiple same models but trained on different subsets of the data. 
+The predictions are then combined to get the final output. 
+
+- Techinques like Random Forest and Gradient Boosting are examples of ensemble methods.
+ex: AdaBoost, XGBoost, LightGBM, RandomForest etc.
+
+Voting and Stacking are used to imporove the accuracy of a model by combining the predictions of multiple models.
+# Voting is used when the models are equally good and we want to combine their predictions.
+# Stacking is used when we have a good model and we want to combine its predictions with the predictions.
+
+
+🧩 Type 1: Same Model, Different Data
+(Used in Bagging, like Random Forest)
+
+👉 What does this mean?
+You take one kind of model (e.g., decision trees), but train it on different subsets of the data.
+
+“Same model” → All learners are of the same algorithm (e.g., all decision trees).
+
+“Different data” → Each model sees a different random sample (with or without replacement) of the original dataset.
+
+✅ Purpose:
+This helps reduce variance—makes the final prediction more stable and less overfitted to any one data sample.
+
+🛒 Analogy:
+Imagine you're trying to guess how popular a product is. You ask 10 different friends 
+(same model = “friend”) but each one surveys a different group of customers (different data). Then you combine all their results.
+
+🧪 Type 2: Different Models, Same Data
+(Used in Stacking or Voting Ensembles)
+
+👉 What does this mean?
+You use different types of models (e.g., a decision tree, a logistic regression, and a support 
+vector machine) but train them all on the same dataset.
+
+“Different models” → Each model uses a different algorithm.
+
+“Same data” → All models see the full dataset (or the same training data).
+
+✅ Purpose:
+This helps reduce bias—because different models learn different patterns or errors, their combination is more well-rounded.
+
+🧠 Analogy:
+You have a doctor, a nutritionist, and a personal trainer (different experts) all looking at the same medical report (same data). Each gives their opinion, and you combine 
+their insights to make a better health decision.
+
+Decision trees are the go-to base estimators in most bagging and boosting algorithms for a mix of theoretical, practical, and computational reasons.
+
+✅ 1. High Variance, Low Bias Model
+Decision trees (especially unpruned ones) have high variance and low bias.
+
+This means they overfit on small datasets, but that’s exactly what ensemble methods like bagging and boosting correct:
+
+Bagging (e.g., Random Forest) reduces variance.
+
+Boosting (e.g., AdaBoost, Gradient Boosting) reduces bias by sequentially improving.
+
+✅ 2. Flexibility and Interpretability
+Decision trees can fit nonlinear relationships, handle both numerical and categorical data, and model complex interactions between features.
+
+They're easy to visualize and interpret, making debugging and analysis easier.
+
+✅ 3. Support for Sample Weights
+Boosting methods require base estimators that support weighted samples (to focus on hard examples).
+
+Most DecisionTreeClassifier implementations (like in scikit-learn) natively support sample_weight.
+
+✅ 4. Fast Training
+Training shallow trees (e.g., depth = 1–3) is computationally fast, especially on small datasets or in iterative boosting setups.
+
+This makes them ideal for use in hundreds or thousands of iterations.
+
+✅ 5. No Need for Feature Scaling
+Unlike models like SVM or Logistic Regression, trees don’t require normalization or scaling of input features.
+
+Makes preprocessing much simpler.
+
+✅ 6. Robust to Outliers and Non-linearities
+Trees split based on thresholds, so they naturally handle nonlinear boundaries and are robust to outliers.
+
+✅ 7. Additive Nature in Boosting
+Boosting adds base models iteratively to correct previous errors.
+
+Trees—especially stumps—work well here since they focus on simple patterns, and the ensemble corrects the mistakes gradually.
+
+| Ensemble Method   | Typical Base Estimator(s)    | Customizable?  | Notes                                   |
+| ----------------- | ---------------------------- | -------------- | --------------------------------------- |
+| Bagging           | DecisionTree, any estimator  | ✅              | Reduces variance                        |
+| Random Forest     | DecisionTree                 | ❌              | Randomized trees                        |
+| AdaBoost          | DecisionStump (Tree depth=1) | ✅              | Focuses on misclassified samples        |
+| Gradient Boosting | DecisionTree                 | ❌ (internally) | Optimizes loss via gradient descent     |
+| XGBoost           | DecisionTree                 | ❌              | Regularized, efficient                  |
+| LightGBM          | DecisionTree                 | ❌              | Histogram-based speedup                 |
+| CatBoost          | Oblivious Decision Trees     | ❌              | Native support for categorical features |
+| Stacking          | Any models                   | ✅              | Meta-model on top of base models        |
+| Voting            | Any models                   | ✅              | Hard or soft voting                     |
+

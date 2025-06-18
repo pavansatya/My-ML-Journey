@@ -1,0 +1,68 @@
+# MAE
+
+| True (`y`) | Predicted (`ŷ`) | Error | Absolute Error |
+| ---------- | --------------- | ----- | -------------- |
+| 100        | 90              | -10   | 10             |
+| 80         | 85              | +5    | 5              |
+| 50         | 40              | -10   | 10             |
+
+
+MAE= i=1∑n ∣yi− y^i∣/n = 25/3 = 8.33
+
+| Property            | Behavior                                                                                          |
+| ------------------- | ------------------------------------------------------------------------------------------------- |
+| Scale-sensitive     | Yes — it has the **same unit** as the target variable                                             |
+| Outlier sensitivity | ❌ **Less sensitive** to outliers than MSE (Mean Squared Error)                                    |
+| Optimization        | Not differentiable at 0 (so harder to use directly in gradient descent, but solvable with tricks) |
+| Interpretability    | ✅ Easy to understand and interpret ("average error")                                              |
+
+
+# MSE
+
+| True (`y`) | Predicted (`ŷ`) | Error | Squared Error |
+| ---------- | --------------- | ----- | ------------- |
+| 10         | 8               | -2    | 4             |
+| 20         | 24              | +4    | 16            |
+| 15         | 14              | -1    | 1             |
+
+MSE = i=1∑n (yi− y^i)^2/n = 21/3 = 7
+
+| Feature                 | Behavior                                           |
+| ----------------------- | -------------------------------------------------- |
+| Units                   | Squared units of the target variable               |
+| Outlier Sensitivity     | ✅ **Sensitive** (large errors dominate)            |
+| Penalizes large errors? | ✅ Yes — squares amplify them                       |
+| Differentiable          | ✅ Yes — useful for **gradient-based optimization** |
+
+
+# RMSE - This is just the squared value for MSE
+
+# R-squared 
+
+1 - (Sum of squares from regression line/ Sum of squares from mean line)
+
+- Negative R-squared means we are applying linear regression on a non-linear data.
+- R-squared of 0.8 indicates that the model is able to explain 80% of the variance in the data i.e. how 80% of the outputs can be explained by the inputs and rest 20% 
+  is due to some other factors.
+
+
+# Adjusted R-squared
+
+This is how the adjusted R-square penalises the model
+
+✅ If it's relevant:
+
+It improves the model’s predictions R^2 increases enough, Adjusted R² goes up.
+
+❌ If it's irrelevant (adds no value or noise):
+
+R^2 might increase slightly (because R² always increases or stays the same when you add features)
+But the penalty in the denominator increases (since k increases) So, Adjusted R² goes down
+
+| Model                                      | R²   | Adjusted R² | Notes                               |
+| ------------------------------------------ | ---- | ----------- | ----------------------------------- |
+| Model A (2 features)                       | 0.75 | 0.72        | Good base                           |
+| Model B (3 features, added irrelevant one) | 0.76 | **0.71** ⬇  | Slight R² gain, Adjusted R² dropped |
+| Model C (3 features, added useful one)     | 0.80 | **0.77** ⬆  | R² gain was significant enough      |
+
+

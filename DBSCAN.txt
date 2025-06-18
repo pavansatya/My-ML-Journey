@@ -1,0 +1,17 @@
+Core point is the one where in given epsilon (hyper parameter) we have number of points >= Minpnts (hyper parameter). 
+Border point is the one, the has atleast one core point and less number of points inside its epsilon radius than Minpnts.
+Neither points are the ones that are neither Core points nor Border points.
+
+| Sensitivity | Examples                                  |
+| ----------- | ----------------------------------------- |
+| Low         | Naive Bayes, Random Forest, Linear Models |
+| Medium      | KNN, Decision Trees, K-Means              |
+| High        | XGBoost, SVM, Neural Networks             |
+
+| Aspect             | Clustering (Unsupervised)     |
+| ------------------ | ----------------------------- |
+| Train-test split?  | ❌ Not typically used          |
+| Labels required?   | ❌ No                          |
+| Evaluation metrics | ✅ Silhouette, WCSS, DBI, etc. |
+| When to split?     | ✅ Only in downstream tasks    |
+

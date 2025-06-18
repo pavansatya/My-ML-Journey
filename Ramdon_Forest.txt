@@ -1,0 +1,13 @@
+The real difference between Random Forest and Bagging with Decisioin Tree as base model is,
+In Bagging when we do column sampling, the whole split (child and leaf node) is done based on those particular columns.
+Meanwhile, In Random Forest the whole split is done randomly on all columns after the main split thus bringing
+extra randomness to the model.
+
+- Mostly all the parameters are same in Regressor and Classifier, expect for the criterion part. Regressor
+has {MSE, MAE}, while Classifier has {gini, entropy}.
+
+- We can use RandomSearchCV or GridSearchCV to find the best parameters for our model. Before that,
+we have to input some values for the parameters we want to fine-tune and fit them to check for the best ones 
+i.e. which gives high score.
+
+- 

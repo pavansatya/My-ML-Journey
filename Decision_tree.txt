@@ -1,0 +1,113 @@
+- More the entropy, more the uncertainity. 
+
+- For a 2 class problem, the minimum entropy is 0 and maximum entropy is 1.
+
+- For more than 2 classes, the minimum entropy is 0 but the maximum entropy can be greater than 1.
+
+- Entropy = -p1*log(p1/(p1+p2)) - p2*log(p2/(p1+p2))  for 2 class problem
+
+
+- When checking entropy for continuous variables, we have to look at the histograms of the data. 
+  If the data is uniformly distributed and range on the x-axis is small then it has low entropy. In short, whichever is large peaked.
+
+- 🔍 What is Information Gain?
+Information Gain (IG) tells us how much "information" a feature gives us about the class labels.
+
+In decision trees, we use it to decide which feature to split on. The feature with the highest information gain 
+is chosen because it helps make the data more pure (i.e., less mixed).
+
+📊 Basic Concepts Behind It:
+Entropy: Measures the impurity or uncertainty in a dataset.
+If all samples belong to one class: entropy = 0 (pure)
+If classes are perfectly mixed: entropy = 1 (maximum impurity for binary)
+Information Gain = Entropy(before split) − Weighted Entropy(after split)
+
+STEP 1 : Calculate entropy of target 
+
+STEP 2 : Calculate entropy of each value of feature 1
+
+STEP 3 : Calculate weighted entropy of feature 1
+
+STEP 4 : Calculate information gain of feature 1 = entropy of target - weighted entropy of feature 1
+
+STEP 5 : Repeat steps 2-4 for all features and choose the feature with the highest information gain for first split. 
+
+| Criteria         | Gini Impurity                              | Entropy                                   |
+| ---------------- | ------------------------------------------ | ----------------------------------------- |
+| Formula          | $1 - \sum p_i^2$                           | $-\sum p_i \log_2(p_i)$                   |
+| Split Preference | Prefers large, pure splits (greedy)        | Prefers splits with high information gain |
+| Computation      | Faster (no log)                            | Slower (involves logarithm)               |
+| Tendency         | May favor **dominant** classes too eagerly | More cautious, can split more evenly      |
+
+
+- Entropy is lower because we calculate using logs and gini impurity is faster as we calculate using squares.
+  So, on larger datasets we use gini impurity rather than entropy. 
+
+  🧠 So, when does Gini overfit more than Entropy?
+
+📌 Gini Overfits More When:
+Classes are imbalanced and:
+Gini may greedily choose a split that favors the majority class, even if that’s not optimal for generalization.
+Entropy, because of its log function, penalizes impurity more heavily and may produce more balanced splits.
+Many irrelevant features:
+Gini might pick features that slightly reduce impurity, leading to deep, specific splits (i.e., overfitting).
+Entropy may be more selective, requiring higher information gain to split.
+Small datasets:
+Gini's aggressiveness can lead to splits based on coincidence, not signal.
+Entropy behaves more conservatively, especially useful when data is scarce.
+
+| Dataset Type                          | Why Entropy Might Be Better                           |
+| ------------------------------------- | ----------------------------------------------------- |
+| Highly imbalanced classes             | Avoids favoring majority too much                     |
+| High-dimensional (lots of features)   | More cautious about splitting unnecessarily           |
+| Small sample size                     | Less prone to overfitting noise                       |
+| Target classes require nuanced splits | Entropy evaluates more subtle information differences |
+
+
+
+
+ overfitting AND underfitting 
+
+ - Depth of the tree is one of the main reasons for overfitting. 
+
+ - So, look out for `max_depth` parameter cause it helps us alot choosing the no. of depths the splits should be.
+   If the max_depth value is less then model underfits, if it is more then it overfits. So, choose optimum value. 
+
+- Another important parameter is `min_samples_split` which is the minimum number of samples required to split an internal node.
+  If this value is too low, the tree may overfit, and if it is too high, tree may underfit. So, choose optimum value.  
+
+
+ # Yes, decision trees loop through candidate thresholds on numerical features, evaluate the entropy or gini impurity 
+   for each, and choose the one that results in the most informative split — all done by default.
+
+ 🧠 Optimization Notes:
+
+If a numerical feature has too many unique values (e.g., float sensor readings), the tree still tries all possible split points — but:
+Libraries may pre-bin values for efficiency (e.g., use quantiles).
+This can be controlled with parameters like max_features, min_samples_split, or max_depth.  
+
+| Overfitting Control | Underfitting Control |
+| ------------------- | -------------------- |
+| `max_depth`         | Increase it          |
+| `min_samples_split` | Decrease it          |
+| `min_samples_leaf`  | Decrease it          |
+| `max_leaf_nodes`    | Increase it          |
+| `ccp_alpha`         | Decrease it          |
+
+
+| Model                   | Why Scaling Matters                                                        |
+| ----------------------- | -------------------------------------------------------------------------- |
+| **KNN**                 | Uses **Euclidean distance** → larger-scale features dominate               |
+| **SVM**                 | Uses dot products and distance in high-dimensional space                   |
+| **Logistic Regression** | Gradient descent converges slowly if features are on very different scales |
+| **K-Means**             | Cluster centers move based on distances                                    |
+
+
+🌳 How Decision Trees Work:
+At each node, a decision tree looks for a feature and a threshold value that best splits the data into two groups.
+
+This split is based on criteria like Gini impurity, entropy (for classification), or mean squared error (for regression).
+
+It evaluates each feature independently and chooses the best threshold for that particular feature.
+
+

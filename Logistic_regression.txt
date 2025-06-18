@@ -1,0 +1,48 @@
+# Sigmoid function's derivative = sigmoid function (1 - sigmoid function)
+
+|                      | **Predicted: Positive** | **Predicted: Negative** |
+| -------------------- | ----------------------- | ----------------------- |
+| **Actual: Positive** | **True Positive (TP)**  | **False Negative (FN)** |
+| **Actual: Negative** | **False Positive (FP)** | **True Negative (TN)**  |
+
+- To make this simple, if predicted response is positive then it is either true positive or negatived
+  based on the actual response. If predicted response is negative then it is either false positive or true 
+  negative based on the actual response.
+
+# Type 1 error - The no. of False Positives (FP) in the model are the type 1 error.
+
+# Type 2 error - The no. of False Negatives (FN) in the model are the type 2 error.
+
+** In an imbalanced dataset, the model will always be biased towards the majority class. 
+So, accuracy is not the correct metric to evaulate model's performance.  **
+
+# Accuracy = (TP + TN) / (TP + TN + FP + FN)
+
+# Precision = TP / (TP + FP)
+
+# Recall = TP / (TP + FN)
+
+# So, based on the domain knowledge, data we are working on, and the model we are using, 
+  we need to choose the correct metric to evaluate the model's performance. As, it is subjective 
+  to the target variable.
+
+# If we are unsure about the target variable or don't have domain knowledge to choose the metric
+  incase of a tie with accuracy, we then use F1-score. It is the harmonic mean of precision and 
+  recall. It is the best metric to evaluate the model's performance in case of imbalanced dataset.
+
+| You Know the Cost?     | Use...       |
+| ---------------------- | ------------ |
+| Yes — FP worse         | Precision    |
+| Yes — FN worse         | Recall       |
+| No — unsure/mixed case | **F1-Score** |
+
+
+# Logistic regression is a specialization of softmax regression for 2 classes. 
+  The reason why we use softmax is, Logistic fails when there are multiple classes (more than two).
+
+- To use softmax regression i.e. multinomial regression, we just add extra parameter inside Logistic
+i.e. multi_class = `multinomial`.
+
+
+
+
