@@ -1,0 +1,31 @@
+To make a concious decision on binary classification tasks, we set the thresolds depending on the True Positive Rate and False Positive Rate
+In problems like fraud detection, rare disease detection, spam classification we often need to leverage the concepts of benefit and cost for better 
+precision and recall metrics.
+
+True Positive Rate (TPR) = TP / (TP + FN), it gives us the purpose of our model i.e. how much benefit we are getting from this model.
+TPR is 0 when model fails to satisfy the main goal. TPR is 1 when models completely satisfies its goal. 
+
+False Positive Rate (FPR) = FP / (FP + TN), it gives us the cost behind using this model i.e. how much it is going to cost us if model makes prediction as 
+true even though actually it is false.
+FPR is 0 when FP is 0 (type 1 error is 0). FPR is one when TN = 0 
+
+*The best case for our classification model is when TPR is 1 and FPR is 0
+
+
+
+The ROC AUC curve measures the entire two dimensional area underneath the entire ROC curve from (0, 0) to (1, 1).
+AUC provides an aggregate amount of performance across all possible classification thresholds.
+
+- An AUC of 1 indicates that the model has perfect discrimination: it corrctly classifies all positive & negative Instances
+- An AUC of 0.5 suggests the model has no discrimination ability: it is as good as randoom guessing
+- An AUC ofm0 indicates that the model is perfectly wrong: it classifies all positive instances as negative and vice-a-versa.
+
+In practice, AUC values usually fall between 0.5 and 1, with higher values indicating better classification performance.
+
+| Situation                          | Use ROC Curve? | Use AUC Value? |
+| ---------------------------------- | -------------- | -------------- |
+| Understand one model's behavior    | ✅ Yes          | Optional       |
+| Choose the best among multiple     | Maybe          | ✅ Yes          |
+| Threshold tuning for deployment    | ✅ Yes          | ❌ Not enough   |
+| Quick ranking of model performance | ❌ Not enough   | ✅ Yes          |
+
